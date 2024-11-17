@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>格式工厂 - 免费多功能的多媒体文件转换工具</title>
+<link rel="icon" href="img\logo.png" sizes="16x16">
+<link rel="stylesheet" href="./css/style.css" type="text/css" />
+<script>
+ //鼠标滑过弹出层
+function ddd(obj, sType) { 
+var oDiv = document.getElementById(obj); 
+if (sType == 'show') { oDiv.style.display = 'block';} 
+if (sType == 'hide') { oDiv.style.display = 'none';} 
+} 
+</script>
+</head>
+
+<body>
+<div class="top">
+  <div class="w1040">
+    <div class="logo"><a href="index.html"></a></div>
+    <ul>
+      <li><a href="about.html"><em>关于</em></a></li>	
+      <li><a href="joinus.html"><em>加入我们</em></a></li>
+      <li><a class="hover" href="faq.html"><em>常见问题</em></a></li>
+      <li><a href="screen.html"><em>软件截图</em></a></li>
+      <li><a href="download.html"><em>软件下载</em></a></li>
+      <li><a href="index.html"><em>首页</em></a></li>
+    </ul>
+    <script type="text/javascript" src="./js/language.js"></script>
+  </div>
+</div>
+<div class="faq_header"></div>
+<div class="w1040">
+  <div class="faq_right">
+    <!--<h1><a href="#">返回</a></h1>-->
+    <div class="feedback">
+      <!--<span id="success_return">感谢您为我们的产品提供使用感受和建议！</span>-->
+      <span id="success_return">抱歉，反馈功能暂未开放。如有问题或建议，请邮件联系pcfreetime@126.com</span>
+      <div class="fb_tj" style="display:none">
+	  <form name="feed" action="" method="post">
+        <ul>
+          <li><em>标题：</em>
+          <input type="text" name="title" id="title" /></li>
+          <li><em>内容：</em>
+          <textarea name="content" id="content" cols="45" rows="5"></textarea></li>
+          <li><em>邮箱：</em>
+          <input type="text" name="email" id="email" /></li>
+          <li><em></em>
+          <button class="anniu1" type="button" onclick="check_feed()">发&nbsp;表</button></li>
+        </ul>
+	  </form>	
+      </div>
+    </div>
+  </div>
+	<div class="faq_left">
+	<h1>常见问题</h1>
+	<ul>
+		<li><a href="faq.html">使用入门</a></li>
+		<li><a href="faq_2.html">在XP上运行错误</a></li>
+		<li><a href="faq_3.html">“Fail to decode”提示</a></li>
+		<li><a href="faq_4.html">如何制作VCD/DVD</a></li>
+		<li><a href="faq_5.html">DVD转视频文件时错误</a></li>
+	</ul>
+	<h2>产品反馈</h2>
+	<span class="hover"><a href="feed.html">我要说一下</a></span>
+</div>
+</div>
+<script type="text/javascript" src="./js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+function check_feed() {
+	var title = $('#title').val();
+	var content = $('#content').val();
+	var email = $('#email').val();
+	var re = /^[a-zA-Z0-9]([a-zA-Z0-9]*[-_.]?[a-zA-Z0-9]+)+@([a-zA-Z0-9]+\.)+[a-zA-Z]{2,}$/;
+	if(title == '') {
+		alert('标题不可以为空');
+		return false;
+	}
+	if(title.length > 100) {
+		alert('标题不可以超过100个字');
+		return false;
+	}
+	if(content == '') {
+		alert('内容不可以为空');
+		return false;
+	}
+	if(content.length > 300) {
+		alert('内容不可以超过300个字');
+		return false;
+	}
+	if(email == '') {
+		alert('邮箱不可以为空');
+		return false;
+	}
+	if(!re.test(email)) {
+		alert('Email格式不正确');
+		return false;
+	}
+	
+	$.ajax({
+		url:'add_feed.php',
+		data:{'title':title, 'content':content, 'email':email},
+		type:'post',
+		dataType:'json',
+		beforesuccess:function() {},
+		success:function(data) {
+			if(data.state == 1) {
+				$('#success_return').html('√&nbsp;&nbsp;我们已经收到您的建议，再次感谢支持！');
+				$('#title').val('');
+				$('#content').val('');
+				$('#email').val('');
+				$('.anniu1').attr('disabled', true);
+			} else {
+				$('#success_return').html('抱歉，反馈信息提交失败，请重新操作...');
+			}
+		}
+	});
+}
+</script>
+<script type="text/javascript" src="./js/footer.js"></script>
+</body>
+</html>
